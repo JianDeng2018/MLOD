@@ -1,0 +1,45 @@
+#Ignore all
+*
+
+#Unigore all with extensions
+!*.*
+
+# Unignore all dirs
+!*/
+
+#Ignore all video
+*.avi
+
+#Ignore all network weights file
+*.hdf5
+
+*.png
+
+# The AVOD weight file
+*.data-00000-of-00001
+
+# Python
+*.pyc
+__pycache__
+
+*.pkl
+
+*.flo
+
+*.zip
+
+*.tar
+
+*.json
+
+logs/
+
+*.meta
+
+*.index
+
+*.npy
+
+avod/data
+
+test/
