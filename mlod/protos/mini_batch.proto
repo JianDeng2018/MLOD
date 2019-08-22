@@ -1,0 +1,41 @@
+package mlod.protos;
+
+message MiniBatchConfig {
+
+    // Density threshold for removing empty anchors
+    required int32 density_threshold = 1;
+
+    required MiniBatchRpnConfig rpn_config = 2;
+    required MiniBatchRpnConfig rpn_img_config = 3;
+    required MiniBatchMlodConfig mlod_config = 4;
+    required MiniBatchMlodConfig mlod_img_config = 5;
+
+}
+
+message MiniBatchIouThresholds {
+    // RPN negative/positive iou ranges
+    required float neg_iou_lo = 3;
+    required float neg_iou_hi = 4;
+    required float pos_iou_lo = 5;
+    required float pos_iou_hi = 6;
+}
+
+message MiniBatchRpnConfig {
+    oneof iou_type {
+        MiniBatchIouThresholds iou_2d_thresholds = 1;
+        MiniBatchIouThresholds iou_3d_thresholds = 2;
+    }
+
+    // Number of anchors in an RPN mini batch
+    required int32 mini_batch_size = 3;
+}
+
+message MiniBatchMlodConfig {
+    // MLOD positive/negative 2D iou ranges
+    required MiniBatchIouThresholds iou_2d_thresholds = 1;
+
+    // Number of anchors in an MLOD mini batch
+    required int32 mini_batch_size = 2;
+}
+
+

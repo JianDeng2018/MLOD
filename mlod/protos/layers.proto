@@ -1,0 +1,225 @@
+package mlod.protos;
+
+// Message for configuring Model Layer params.
+message LayersConfig {
+
+    required FeatureExtractor bev_feature_extractor = 1;
+    required FeatureExtractor img_feature_extractor = 2;
+
+    required RPNLayersConfig rpn_config = 3;
+    required MLODLayersConfig mlod_config = 4;
+}
+
+message FeatureExtractor {
+    oneof feature_extractor {
+        VGGLayersConfig bev_vgg = 1;
+        VGGLayersConfig depth_vgg = 2;
+        VGGLayersConfig img_vgg = 3;
+
+        ResnetLayersConfig bev_resnet = 4;
+        ResnetLayersConfig img_resnet = 5;
+
+        InceptionLayersConfig bev_inception = 6;
+        InceptionLayersConfig img_inception = 7;
+
+        PyramidLayersConfig img_vgg_pyr = 8;
+        PyramidLayersConfig bev_vgg_pyr = 9;
+
+        PyramidLayersConfig img_vgg_concat = 10;
+        PyramidLayersConfig bev_vgg_concat = 11;
+
+	PyramidLayersConfig img_vgg_pure = 12;
+	PyramidLayersConfig img_vgg_pyr2 = 13;
+
+	PyramidLayersConfig img_vgg_retina = 14;
+
+	LFELayersConfig bev_vgg_lfe = 15;
+
+	PyramidLayersConfig img_vgg_pyr3 = 16;
+
+    }
+}
+
+message VGGLayersConfig {
+    // Conv layer 1 [repeat, num filter]
+    repeated int32 vgg_conv1 = 1;
+
+    // Conv layer 2 [repeat, num filter]
+    repeated int32 vgg_conv2 = 2;
+
+    // Conv layer 3 [repeat, num filter]
+    repeated int32 vgg_conv3 = 3;
+
+    // Conv layer 4 [repeat, num filter]
+    repeated int32 vgg_conv4 = 4;
+
+    // Upsampling multiplier
+    required int32 upsampling_multiplier = 5;
+
+    // L2 norm weight decay
+    optional float l2_weight_decay = 6 [default = 0.0005];
+}
+
+message PyramidLayersConfig {
+    // Conv layer 1 [repeat, num filter]
+    repeated int32 vgg_conv1 = 1;
+
+    // Conv layer 2 [repeat, num filter]
+    repeated int32 vgg_conv2 = 2;
+
+    // Conv layer 3 [repeat, num filter]
+    repeated int32 vgg_conv3 = 3;
+
+    // Conv layer 4 [repeat, num filter]
+    repeated int32 vgg_conv4 = 4;
+
+    // Conv layer 5 [repeat, num filter]
+    repeated int32 vgg_conv5 = 5;
+
+    // L2 norm weight decay
+    optional float l2_weight_decay = 6 [default = 0.0005];
+}
+
+message LFELayersConfig {
+    // Conv layer 1 [repeat, num filter]
+    repeated int32 vgg_conv1 = 1;
+
+    // Conv layer 2 [repeat, num filter]
+    repeated int32 vgg_conv2 = 2;
+
+    // Conv layer 3 [repeat, num filter]
+    repeated int32 vgg_conv3 = 3;
+
+    // Conv layer 4 [repeat, num filter]
+    repeated int32 vgg_conv4 = 4;
+
+    // Conv layer 5 [repeat, num filter]
+    repeated int32 vgg_conv5 = 5;
+
+    // Conv layer 6 [repeat, num filter]
+    repeated int32 vgg_conv6 = 6;
+
+    // L2 norm weight decay
+    optional float l2_weight_decay = 7 [default = 0.0005];
+}
+
+message ResnetLayersConfig {
+    // Resnet version, 'Resnet_v1' or 'Resnet_v2'
+    required string resnet_v = 1;
+
+    required int32 block1_depth = 2;
+    required int32 block1_units = 3;
+    required int32 block1_stride = 4;
+
+    required int32 block2_depth = 5;
+    required int32 block2_units = 6;
+    required int32 block2_stride = 7;
+
+    required int32 block3_depth = 8;
+    required int32 block3_units = 9;
+    required int32 block3_stride = 10;
+
+    required int32 block4_depth = 11;
+    required int32 block4_units = 12;
+    required int32 block4_stride = 13;
+
+    // Upsampling multiplier
+    required int32 upsampling_multiplier = 14;
+}
+
+message InceptionLayersConfig {
+    // Inception version, 'Inception_v1' or 'Inception_v2'
+    required string inception_v =1;
+
+    // Upsampling multiplier
+    required int32 upsampling_multiplier = 2;
+}
+
+message RPNLayersConfig {
+    // Anchor predictor layer configs
+    // classification fc layer size
+    required int32 cls_fc6 = 1;
+    required int32 cls_fc7 = 2;
+
+    // Regression fc layer size
+    required int32 reg_fc6 = 3;
+    required int32 reg_fc7 = 4;
+
+    // L2 weight decay
+    required float l2_weight_decay = 6;
+
+    // Dropout probability - the probabilit that a neuron's
+    // output is kept during dropout
+    optional float keep_prob = 5 [default = 0.5];
+
+    // Weights for classification input [bev,img]
+    repeated float cls_input_weights = 7;
+
+    // Weights for regression input [bev,img]
+    repeated float reg_input_weights = 8;
+
+}
+
+message MLODLayersConfig{
+    oneof fc_layers {
+        BasicFcLayers basic_fc_layers = 1;
+        CombinedFcLayers combined_fc_layers = 2;
+//        Basic8CFcLayers basic_8c_fc_layers = 3;
+        FusionFcLayers fusion_fc_layers = 4;
+    }
+
+    // Weights for classification input [bev,img]
+    repeated float cls_input_weights = 5;
+
+    // Weights for regression input [bev,img]
+    repeated float reg_input_weights = 6;
+
+}
+
+message BasicFcLayers {
+    required int32 num_layers = 1;
+    repeated int32 layer_sizes = 2;
+
+    // L2 weight decay
+    required float l2_weight_decay = 3;
+
+    // Dropout keep probability
+    required float keep_prob = 4;
+
+    // Fusion method ('mean', 'concat')
+    required string fusion_method = 5;
+}
+
+message CombinedFcLayers {
+    required int32 fc6 = 1;
+    required int32 fc7 = 2;
+    required int32 fc8 = 3;
+
+    // Dropout probability
+    required float keep_prob = 4;
+
+    // L2 weight decay
+    required float l2_weight_decay = 5;
+
+    // ROI fusion method, one of ['mean', 'concat']
+    required string fusion_method = 6;
+}
+
+message FusionFcLayers {
+
+    required int32 num_layers = 1;
+    repeated int32 layer_sizes = 2;
+
+    // L2 weight decay
+    required float l2_weight_decay = 3;
+
+    // Dropout keep probability
+    required float keep_prob = 4;
+
+    // Fusion method ('mean', 'concat')
+    required string fusion_method = 5;
+
+    // Fusion type (early, late, deep)
+    required string fusion_type = 6;
+
+}
