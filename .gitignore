@@ -40,6 +40,6 @@ logs/
 
 *.npy
 
-avod/data
+mlod/data
 
 test/
