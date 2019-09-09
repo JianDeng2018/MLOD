@@ -1,5 +1,5 @@
 # Multi-view Labelling Object Detector
-This repository contains the implementation of our Multi-View 3D Object Detection Based on Robust Feature Fusion Method. This codes are modified from AVOD(https://github.com/kujason/avod).
+This repository contains the implementation of our Multi-View 3D Object Detection Based on Robust Feature Fusion Method. This codes are modified from [AVOD](https://github.com/kujason/avod).
 
 ## Getting Started
 Implemented and tested on Ubuntu 16.04, Python 3.5 and Tensorflow 1.9.0.
