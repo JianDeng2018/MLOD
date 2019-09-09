@@ -1,5 +1,5 @@
 # Multi-view Labelling Object Detector
-This repository contains the implementation of our Multi-View 3D Object Detection Based on Robust Feature Fusion Method. This codes are modified from 
+This repository contains the implementation of our Multi-View 3D Object Detection Based on Robust Feature Fusion Method. This codes are modified from AVOD(https://github.com/kujason/avod).
 
 ## Getting Started
 Implemented and tested on Ubuntu 16.04, Python 3.5 and Tensorflow 1.9.0.
@@ -7,7 +7,7 @@ Implemented and tested on Ubuntu 16.04, Python 3.5 and Tensorflow 1.9.0.
 Add MLOD to PYTHONPATH
 
 ``` bash
-# From avod/
+# From MLOD/
 export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/MLOD
 ```
 
@@ -18,14 +18,14 @@ or, you can add it to your ~/.bashrc file.
 Compile the the Protobuf libraries through the following script:
 
 ``` bash
-# From top level avod folder
+# From top level mlod folder
 sh mlod/protos/run_protoc.sh
 ```
 
 Alternatively, you run `protoc` command directly:
 
 ``` bash
-# From top level avod folder
+# From top level mlod folder
 protoc mlod/protos/*.proto --python_out=.
 ```
 
@@ -68,15 +68,14 @@ label_clusters mini_batches
 
 ### Training Configuration
 
-There are sample configuration files for training inside `mlod/configs`. You can train on the vanilla config, or modify an existing configuration.
-To train a new configuration, copy a vanilla config, say `avod_exp_example.config`, rename this file to your experiment name
-and make sure the name matches the `checkpoint_name: 'avod_exp_example'` entry inside your config.
+There are sample configuration files for training inside `mlod/configs`. Rename the config file to your experiment name
+and make sure the name matches the `checkpoint_name: 'mlod_fpn_car'` entry inside your config.
 
 ### Run Trainer
 
 To start training, run the following:
 ``` bash
-python mlod/experiments/models/run_training.py --pipeline_config=avod/configs/avod_exp_example.config
+python mlod/experiments/models/run_training.py --pipeline_config=mlod/configs/mlod_fpn_car.config
 ```
 
 (Optional) You can specify the gpu device you want to run it on by adding `--device='0'` to the command above.
@@ -85,7 +84,7 @@ python mlod/experiments/models/run_training.py --pipeline_config=avod/configs/av
 
 To start evaluation, run the following:
 ``` bash
-python mlod/experiments/models/run_evaluation.py --pipeline_config=avod/configs/avod_exp_example.config
+python mlod/experiments/models/run_evaluation.py --pipeline_config=mlod/configs/mlod_fpn_car.config
 ```
 
 The evaluator has two main modes, you can either evaluate a single checkpoint, a list of indices of checkpoints, or repeatedly.
@@ -93,14 +92,14 @@ By default, the evaluator is design to be ran in parallel with the trainer to re
 inside the same config file (look for `eval_config` entry).
 
 Note: In addition to evaluating the loss, calclulating accuracies etc, the evaluator also runs the `kitti native evaluation code`.
-This straightaway starts converting the predictions to Kitti format and calculates the `AP` for every checkpoint and saves the results inside `scripts/offline_eval/results/avod_exp_example_results_0.1.txt` where `0.1` is the score threshold.
+This straightaway starts converting the predictions to Kitti format and calculates the `AP` for every checkpoint and saves the results inside `scripts/offline_eval/results/mlod_fpn_car_results_0.1.txt` where `0.1` is the score threshold.
 
 
 ### Run Inference
 
 To run inference on the `test` split, use the following script:
 ``` bash
-python mlod/experiments/models/run_testing.py --checkpoint_name='avod_exp_example' --data_split='test' --ckpt_indices=0
+python mlod/experiments/models/run_testing.py --checkpoint_name='mlod_fpn_car' --data_split='test' --ckpt_indices=0
 ```
 Here you can also use `val` split. The `ckpt_indices` here indicates the index of the checkpoint in the list. So say you set the
 `checkpoint_interval` inside your config to `1000`. That means to evaluate say checkpoint `116000`, the index is `116`.
@@ -110,7 +109,7 @@ You can also just set this to `-1` where it evaluates the latest checkpoint.
 All the results should go to `mlod/data/outputs`.
 
 ``` bash
-cd mlod/data/outputs/avod_exp_experiment
+cd mlod/data/outputs/mlod_fpn_car
 ```
 
 Here you should see `proposals_and_scores` and `final_predictions_and_scores` results. To visualize these results, you can run
