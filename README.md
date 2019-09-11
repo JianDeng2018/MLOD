@@ -1,5 +1,9 @@
 # Multi-view Labelling Object Detector
-This repository contains the implementation of our Multi-View 3D Object Detection Based on Robust Feature Fusion Method. This codes are modified from [AVOD](https://github.com/kujason/avod).
+This repository contains the implementation of our Multi-View 3D Object Detection Based on Robust Feature Fusion Method. This codes are modified from [AVOD](https://github.com/kujason/avod). 
+
+[**MLOD: A multi-view 3D object detection based on robust feature fusion method**](https://arxiv.org/abs/1909.04163)
+
+[Jian Deng](https://scholar.google.com/citations?user=1QvpHZMAAAAJ&hl=en), [Krzysztof Czarnecki](https://scholar.google.ca/citations?user=ZzCpumQAAAAJ&hl=en) 
 
 ## Getting Started
 Implemented and tested on Ubuntu 16.04, Python 3.5 and Tensorflow 1.9.0.
